@@ -2,115 +2,97 @@
 
 Repo: https://github.com/Ishan-014/oaqjp-final-project-emb-ai
 
-> The Watson NLP endpoint (`sn-watson-emotion.labs.skills.network`) only answers from inside the
-> IBM Skills Network lab. Every terminal output and screenshot marked **LAB** below has to be
-> captured there. Open the lab terminal, then run:
+> The Watson NLP endpoint only answers from inside the IBM Skills Network lab, so every
+> terminal output and screenshot (Q3, Q5, Q7, Q9, Q11, Q14, Q16) must be captured there.
+> The graders want the path `/home/project/final_project` in the outputs, so clone into
+> that folder name. In a lab terminal:
 >
 > ```
 > cd /home/project
-> git clone https://github.com/Ishan-014/oaqjp-final-project-emb-ai.git
-> cd oaqjp-final-project-emb-ai
-> python3.11 -m pip install flask requests pylint
+> git clone https://github.com/Ishan-014/oaqjp-final-project-emb-ai.git final_project
+> cd final_project
+> python3 -m pip install flask requests pylint
 > ```
 
-## Task 1 — GitHub repository URL
+| Q | Task | What to submit |
+|---|------|----------------|
+| 1 | 1 | https://github.com/Ishan-014/oaqjp-final-project-emb-ai/blob/main/README.md |
+| 2 | 2a | Contents of `2a_emotion_detection.py` |
+| 3 | 2b | Lab terminal output, steps below |
+| 4 | 3a | Contents of `3a_output_formatting.py` |
+| 5 | 3b | Lab terminal output, steps below |
+| 6 | 4a | https://github.com/Ishan-014/oaqjp-final-project-emb-ai/blob/main/EmotionDetection/__init__.py |
+| 7 | 4b | Lab terminal output, steps below |
+| 8 | 5a | Contents of `5a_unit_testing.py` |
+| 9 | 5b | Lab terminal output, steps below |
+| 10 | 6a | Contents of `6a_server.py` |
+| 11 | 6b | Upload `6b_deployment_test.png`, steps below |
+| 12 | 7a | Contents of `7a_error_handling_function.py` |
+| 13 | 7b | Contents of `7b_error_handling_server.py` |
+| 14 | 7c | Upload `7c_error_handling_interface.png`, steps below |
+| 15 | 8a | Contents of `8a_server_modified.py` |
+| 16 | 8b | Lab terminal output, steps below |
 
-https://github.com/Ishan-014/oaqjp-final-project-emb-ai/blob/main/README.md
-
-## Task 2 — Emotion detection application
-
-**2a code:** paste [2a_emotion_detection.py](2a_emotion_detection.py).
-
-**2b terminal output (LAB):**
+## Q3 — 2b application creation
 
 ```
-python3.11
+cp 2a_emotion_detection.py emotion_detection.py
+python3
 >>> from emotion_detection import emotion_detector
+>>> print(emotion_detector('I am really mad about this'))
+>>> exit()
+python3 test_emotion_detection.py
 ```
 
-That import needs a top-level `emotion_detection.py`, so before Task 4 copy it:
-`cp 2a_emotion_detection.py emotion_detection.py`, then in the Python shell:
+Copy everything from the `python3` prompt line down to the `OK` line.
+
+## Q5 — 3b formatted output
 
 ```
+cp 3a_output_formatting.py emotion_detection.py
+python3
 >>> from emotion_detection import emotion_detector
->>> emotion_detector("I love this new technology.")
+>>> print(emotion_detector('I am so happy I am doing this'))
+>>> exit()
+rm emotion_detection.py
 ```
 
-Screenshot or copy the JSON text it prints.
+Output is a dict with anger, disgust, fear, joy, sadness and `'dominant_emotion': 'joy'`.
 
-## Task 3 — Output formatting
-
-**3a code:** paste [3a_output_formatting.py](3a_output_formatting.py).
-
-**3b terminal output (LAB):** `cp 3a_output_formatting.py emotion_detection.py`, then:
+## Q7 — 4b packaging test
 
 ```
-python3.11
->>> from emotion_detection import emotion_detector
->>> emotion_detector("I am so happy I am doing this.")
+python3 -c "from EmotionDetection.emotion_detection import emotion_detector; print(emotion_detector('I am very angry'))"
 ```
 
-Expected shape: `{'anger': ..., 'disgust': ..., 'fear': ..., 'joy': ..., 'sadness': ..., 'dominant_emotion': 'joy'}`.
-Afterwards `rm emotion_detection.py` so it doesn't shadow the package.
+Paste the command line and the dict (`'dominant_emotion': 'anger'`).
 
-## Task 4 — EmotionDetection package
-
-**4a URL:** https://github.com/Ishan-014/oaqjp-final-project-emb-ai/blob/main/EmotionDetection/__init__.py
-
-**4b terminal output (LAB, also works offline):**
+## Q9 — 5b unit tests
 
 ```
-python3.11
->>> import EmotionDetection
->>> from EmotionDetection.emotion_detection import emotion_detector
->>> emotion_detector("I hate working long hours.")
+python3 test_emotion_detection.py
 ```
 
-Expected `dominant_emotion`: `'anger'`.
+Expected: `Ran 1 test in ...s` then `OK`.
 
-## Task 5 — Unit tests
+## Q11 — 6b deployment screenshot
 
-**5a code:** paste [5a_unit_testing.py](5a_unit_testing.py) (same as `test_emotion_detection.py`).
+1. `python3 server.py` (leave it running).
+2. Skills Network Toolbox → Other → Launch Application → port `5000`.
+3. Type `I think I am having fun`, click **Run Sentiment Analysis**.
+4. Screenshot showing the typed text and the result line → `6b_deployment_test.png`.
 
-**5b terminal output (LAB):** `python3.11 test_emotion_detection.py` — expected:
+## Q14 — 7c error handling screenshot
 
-```
-.
-----------------------------------------------------------------------
-Ran 1 test in ...s
+Same page, clear the text box, click **Run Sentiment Analysis**. Screenshot showing
+`Invalid text! Please try again!` → `7c_error_handling_interface.png`.
 
-OK
-```
+## Q16 — 8b static code analysis
 
-## Task 6 — Flask deployment
-
-**6a code:** paste [6a_server.py](6a_server.py).
-
-**6b screenshot (LAB):** `python3.11 server.py`, open port 5000 via *Skills Network Toolbox → Launch
-Application*, type `I think I am having fun`, click **Run Sentiment Analysis**, screenshot the
-page with the result → save as `6b_deployment_test.png`.
-
-## Task 7 — Error handling
-
-**7a code:** paste [7a_error_handling_function.py](7a_error_handling_function.py) (the
-`status_code == 400` branch returning all `None`).
-
-**7b code:** paste [7b_error_handling_server.py](7b_error_handling_server.py) (the
-`if response['dominant_emotion'] is None` → `"Invalid text! Please try again!"` branch).
-
-**7c screenshot (LAB):** with the server running, leave the text box empty and click
-**Run Sentiment Analysis**; the page shows `Invalid text! Please try again!` → save as
-`7c_error_handling_interface.png`.
-
-## Task 8 — Static code analysis
-
-**8a code:** paste [8a_server_modified.py](8a_server_modified.py).
-
-**8b terminal output:** `pylint server.py`
+Stop the server (Ctrl+C), then:
 
 ```
---------------------------------------------------------------------
-Your code has been rated at 10.00/10
+pylint server.py
 ```
 
-(Verified locally with pylint 4.1.3 on 2026-11-08.)
+Expected: `Your code has been rated at 10.00/10` (verified locally with pylint 4.1.3).
